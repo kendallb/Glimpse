@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Glimpse.WindowsAzure.Caching</RootNamespace>
     <AssemblyName>Glimpse.WindowsAzure.Caching</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -97,9 +97,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Glimpse.Core.Net40\Glimpse.Core.Net40.csproj">
-      <Project>{dd93b23c-e2d7-4283-9f3f-88f87271018b}</Project>
-      <Name>Glimpse.Core.Net40</Name>
+    <ProjectReference Include="..\Glimpse.Core\Glimpse.Core.csproj">
+      <Project>{c1289ce8-3259-41d9-893e-7a4e6f772d30}</Project>
+      <Name>Glimpse.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Glimpse.WindowsAzure\Glimpse.WindowsAzure.csproj">
       <Project>{310d2fea-6b20-4d2e-869d-ec3b578ff552}</Project>
