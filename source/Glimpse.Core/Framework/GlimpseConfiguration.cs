@@ -58,7 +58,7 @@ namespace Glimpse.Core.Framework
         /// <param name="runtimePolicyStrategy">The runtime policy strategy.</param>
         /// <exception cref="System.ArgumentNullException">An exception is thrown if any parameter is <c>null</c>.</exception>
         public GlimpseConfiguration(
-            IFrameworkProvider frameworkProvider, 
+            IFrameworkProvider frameworkProvider,
             ResourceEndpointConfiguration endpointConfiguration,
             ICollection<IClientScript> clientScripts,
             ILogger logger,
@@ -628,8 +628,8 @@ namespace Glimpse.Core.Framework
         /// The configured <see cref="IExecutionTimer"/> strategy.
         /// </value>
         /// <exception cref="System.ArgumentNullException">An exception is thrown if the value is set to <c>null</c>.</exception>
-        public Func<IExecutionTimer> TimerStrategy 
-        { 
+        public Func<IExecutionTimer> TimerStrategy
+        {
             get
             {
                 return timerStrategy;
@@ -688,13 +688,13 @@ namespace Glimpse.Core.Framework
             }
         }
 
-        [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
+        // [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
         public static ILogger GetLogger()
         {
             return logger;
         }
 
-        [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
+        // [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
         public static Func<IExecutionTimer> GetConfiguredTimerStrategy()
         {
             return () =>
@@ -708,22 +708,22 @@ namespace Glimpse.Core.Framework
                     // Avoid exception being thrown from threads without access to request store
                     return null;
                 }
-            }; 
+            };
         }
 
-        [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
+        // [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
         public static IMessageBroker GetConfiguredMessageBroker()
         {
             return messageBroker;
         }
 
-        [Obsolete("HACK: To prevent unnecessary wrapping of SQL connections, commands etc")]
+        // [Obsolete("HACK: To prevent unnecessary wrapping of SQL connections, commands etc")]
         public static RuntimePolicy GetDefaultRuntimePolicy()
         {
             return defaultRuntimePolicy;
         }
 
-        [Obsolete("HACK: To prevent unnecessary wrapping of SQL connections, commands etc")]
+        // [Obsolete("HACK: To prevent unnecessary wrapping of SQL connections, commands etc")]
         public static Func<RuntimePolicy> GetRuntimePolicyStategy()
         {
             return runtimePolicyStrategy;

@@ -14,7 +14,7 @@ namespace Glimpse.AspNet.Tab
     public class Cache : AspNetTab, ILayoutControl
     {
         private const string TestCacheKey = "testKey";
-        private static readonly MethodInfo MethodInfoCacheGet = HttpRuntime.Cache.GetType().GetMethod("Get", BindingFlags.Instance | BindingFlags.NonPublic); 
+        private static readonly MethodInfo MethodInfoCacheGet = HttpRuntime.Cache.GetType().GetMethod("Get", BindingFlags.Instance | BindingFlags.NonPublic);
         private static readonly PropertyInfo ProcessInfoUtcCreated;
         private static readonly PropertyInfo ProcessInfoUtcExpires;
         private static readonly PropertyInfo ProcessInfoSlidingExpiration;
@@ -24,10 +24,16 @@ namespace Glimpse.AspNet.Tab
             if (MethodInfoCacheGet != null)
             {
                 // Need an item in the cache to call the MethodInfoCacheGet.Invoke below.
-                HttpRuntime.Cache.Add(TestCacheKey, string.Empty, null, DateTime.Now.AddHours(1),
-                    System.Web.Caching.Cache.NoSlidingExpiration, CacheItemPriority.AboveNormal, null);
+                HttpRuntime.Cache.Add(
+                    TestCacheKey,
+                    string.Empty,
+                    null,
+                    DateTime.Now.AddHours(1),
+                    System.Web.Caching.Cache.NoSlidingExpiration,
+                    CacheItemPriority.AboveNormal,
+                    null);
 
-                var cacheEntry = MethodInfoCacheGet.Invoke(HttpRuntime.Cache, new object[] {TestCacheKey, 1});
+                var cacheEntry = MethodInfoCacheGet.Invoke(HttpRuntime.Cache, new object[] { TestCacheKey, 1 });
                 var typeCacheEntity = cacheEntry.GetType();
                 ProcessInfoUtcCreated =
                     typeCacheEntity.GetProperty("UtcCreated", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -63,7 +69,7 @@ namespace Glimpse.AspNet.Tab
                 {
                     try
                     {
-                        var cacheEntry = MethodInfoCacheGet.Invoke(HttpRuntime.Cache, new object[] {item.Key, 1});
+                        var cacheEntry = MethodInfoCacheGet.Invoke(HttpRuntime.Cache, new object[] { item.Key, 1 });
 
                         var cacheItemModel = new CacheItemModel();
                         cacheItemModel.Key = item.Key.ToString();

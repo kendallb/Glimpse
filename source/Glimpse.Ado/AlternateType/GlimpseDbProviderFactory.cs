@@ -46,6 +46,7 @@ namespace Glimpse.Ado.AlternateType
             {
                 return new GlimpseDbCommand(command);
             }
+
             return command;
         }
 
@@ -61,6 +62,7 @@ namespace Glimpse.Ado.AlternateType
             {
                 return new GlimpseDbConnection(connection, this);
             }
+
             return connection;
         }
 
@@ -76,6 +78,7 @@ namespace Glimpse.Ado.AlternateType
             {
                 return new GlimpseDbDataAdapter(adapter);
             }
+
             return adapter;
         }
 
