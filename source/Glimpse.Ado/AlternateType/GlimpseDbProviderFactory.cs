@@ -8,22 +8,28 @@ namespace Glimpse.Ado.AlternateType
 {
     public abstract class GlimpseDbProviderFactory : DbProviderFactory
     {
+        public static bool IsAdoMonitoringNeeded()
+        {
+            return GlimpseConfiguration.GetConfiguredMessageBroker() != null &&
+                   GlimpseConfiguration.GetDefaultRuntimePolicy() != RuntimePolicy.Off &&
+                   GlimpseConfiguration.GetRuntimePolicyStategy()() != RuntimePolicy.Off;
+        }
     }
 
     public class GlimpseDbProviderFactory<TProviderFactory> : GlimpseDbProviderFactory, IServiceProvider
         where TProviderFactory : DbProviderFactory
     {
         public static readonly GlimpseDbProviderFactory<TProviderFactory> Instance = new GlimpseDbProviderFactory<TProviderFactory>();
-        
+
         public GlimpseDbProviderFactory()
-        {            
+        {
             var field = typeof(TProviderFactory).GetField("Instance", BindingFlags.Public | BindingFlags.Static);
             if (field == null)
             {
                 throw new NotSupportedException("Provider doesn't have Instance property.");
             }
 
-            InnerFactory = (TProviderFactory)field.GetValue(null);           
+            InnerFactory = (TProviderFactory)field.GetValue(null);
         }
 
         public override bool CanCreateDataSourceEnumerator
@@ -36,7 +42,7 @@ namespace Glimpse.Ado.AlternateType
         public override DbCommand CreateCommand()
         {
             var command = InnerFactory.CreateCommand();
-            if (IsAdoMonitoringNeeded()) 
+            if (IsAdoMonitoringNeeded())
             {
                 return new GlimpseDbCommand(command);
             }
@@ -51,7 +57,7 @@ namespace Glimpse.Ado.AlternateType
         public override DbConnection CreateConnection()
         {
             var connection = InnerFactory.CreateConnection();
-            if (IsAdoMonitoringNeeded()) 
+            if (IsAdoMonitoringNeeded())
             {
                 return new GlimpseDbConnection(connection, this);
             }
@@ -66,7 +72,7 @@ namespace Glimpse.Ado.AlternateType
         public override DbDataAdapter CreateDataAdapter()
         {
             var adapter = InnerFactory.CreateDataAdapter();
-            if (IsAdoMonitoringNeeded()) 
+            if (IsAdoMonitoringNeeded())
             {
                 return new GlimpseDbDataAdapter(adapter);
             }
@@ -82,7 +88,7 @@ namespace Glimpse.Ado.AlternateType
         {
             return InnerFactory.CreateParameter();
         }
-         
+
         public object GetService(Type serviceType)
         {
             if (serviceType == GetType())
@@ -94,9 +100,9 @@ namespace Glimpse.Ado.AlternateType
 
             // HACK: To make things easier on ourselves we are going to try and see
             // what we can do for people using EF. If they are using EF but don't have
-            // Glimpse.EF then we throw because the exception that will be caused down 
-            // the track by EF isn't obvious as to whats going on. When it gets to 
-            // requesting DbProviderServices, if we don't return the profiled version, 
+            // Glimpse.EF then we throw because the exception that will be caused down
+            // the track by EF isn't obvious as to whats going on. When it gets to
+            // requesting DbProviderServices, if we don't return the profiled version,
             // when GetDbProviderManifestToken is called, it passes in a GlimpseDbConnection rather than the inner connection. This is a problem because the GetDbProviderManifestToken trys to cast the connection to its concreat type
             if (serviceType.FullName == "System.Data.Common.DbProviderServices")
             {
@@ -114,19 +120,12 @@ namespace Glimpse.Ado.AlternateType
                 if (type != null)
                 {
                     return Activator.CreateInstance(type, service);
-                } 
-                
-                throw new NotSupportedException(Resources.GlimpseEFNotPresent);  
+                }
+
+                throw new NotSupportedException(Resources.GlimpseEFNotPresent);
             }
 
             return service;
-        }
-
-        private static bool IsAdoMonitoringNeeded()
-        {
-            return GlimpseConfiguration.GetConfiguredMessageBroker() != null &&
-                   GlimpseConfiguration.GetDefaultRuntimePolicy() != RuntimePolicy.Off &&
-                   GlimpseConfiguration.GetRuntimePolicyStategy()() != RuntimePolicy.Off;
         }
     }
 }
