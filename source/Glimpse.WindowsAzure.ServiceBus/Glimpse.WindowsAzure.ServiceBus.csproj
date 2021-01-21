@@ -43,12 +43,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ServiceBus">
-      <HintPath>..\..\packages\WindowsAzure.ServiceBus.2.2.1.1\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Configuration">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.2.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -73,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Glimpse.Core\Glimpse.Core.csproj">
@@ -84,6 +77,10 @@
       <Project>{310d2fea-6b20-4d2e-869d-ec3b578ff552}</Project>
       <Name>Glimpse.WindowsAzure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAzure.ConfigurationManager" Version="2.0.2" />
+    <PackageReference Include="WindowsAzure.ServiceBus" Version="2.2.1.1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

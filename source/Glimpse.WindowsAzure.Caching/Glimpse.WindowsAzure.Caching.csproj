@@ -43,27 +43,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Caching.AzureCommon">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Caching.Client">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Caching.Core">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Web.DistributedCache">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.Web.DistributedCache.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsFabric.Common">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.WindowsFabric.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsFabric.Data.Common">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Caching.2.2.0.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -94,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Glimpse.Core\Glimpse.Core.csproj">
@@ -105,6 +83,9 @@
       <Project>{310d2fea-6b20-4d2e-869d-ec3b578ff552}</Project>
       <Name>Glimpse.WindowsAzure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAzure.Caching" Version="2.2.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
