@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Data.Common;
 using System.Reflection;
-using Glimpse.Core.Extensibility;
 using Glimpse.Core.Framework;
 
 namespace Glimpse.Ado.AlternateType
 {
     public abstract class GlimpseDbProviderFactory : DbProviderFactory
     {
-        public static bool IsAdoMonitoringNeeded()
-        {
-            return GlimpseConfiguration.GetConfiguredMessageBroker() != null &&
-                   GlimpseConfiguration.GetDefaultRuntimePolicy() != RuntimePolicy.Off &&
-                   GlimpseConfiguration.GetRuntimePolicyStategy()() != RuntimePolicy.Off;
-        }
     }
 
     public class GlimpseDbProviderFactory<TProviderFactory> : GlimpseDbProviderFactory, IServiceProvider
@@ -42,12 +35,7 @@ namespace Glimpse.Ado.AlternateType
         public override DbCommand CreateCommand()
         {
             var command = InnerFactory.CreateCommand();
-            if (IsAdoMonitoringNeeded())
-            {
-                return new GlimpseDbCommand(command);
-            }
-
-            return command;
+            return GlimpseConfiguration.IsGlimpseEnabled ? new GlimpseDbCommand(command) : command;
         }
 
         public override DbCommandBuilder CreateCommandBuilder()
@@ -58,12 +46,7 @@ namespace Glimpse.Ado.AlternateType
         public override DbConnection CreateConnection()
         {
             var connection = InnerFactory.CreateConnection();
-            if (IsAdoMonitoringNeeded())
-            {
-                return new GlimpseDbConnection(connection, this);
-            }
-
-            return connection;
+            return GlimpseConfiguration.IsGlimpseEnabled ? new GlimpseDbConnection(connection, this) : connection;
         }
 
         public override DbConnectionStringBuilder CreateConnectionStringBuilder()
@@ -74,12 +57,7 @@ namespace Glimpse.Ado.AlternateType
         public override DbDataAdapter CreateDataAdapter()
         {
             var adapter = InnerFactory.CreateDataAdapter();
-            if (IsAdoMonitoringNeeded())
-            {
-                return new GlimpseDbDataAdapter(adapter);
-            }
-
-            return adapter;
+            return GlimpseConfiguration.IsGlimpseEnabled ? new GlimpseDbDataAdapter(adapter) : adapter;
         }
 
         public override DbDataSourceEnumerator CreateDataSourceEnumerator()
@@ -106,7 +84,7 @@ namespace Glimpse.Ado.AlternateType
             // Glimpse.EF then we throw because the exception that will be caused down
             // the track by EF isn't obvious as to whats going on. When it gets to
             // requesting DbProviderServices, if we don't return the profiled version,
-            // when GetDbProviderManifestToken is called, it passes in a GlimpseDbConnection rather than the inner connection. This is a problem because the GetDbProviderManifestToken trys to cast the connection to its concreat type
+            // when GetDbProviderManifestToken is called, it passes in a GlimpseDbConnection rather than the inner connection. This is a problem because the GetDbProviderManifestToken tries to cast the connection to its concrete type
             if (serviceType.FullName == "System.Data.Common.DbProviderServices")
             {
                 var type = Type.GetType("Glimpse.EF.AlternateType.GlimpseDbProviderServices, Glimpse.EF43", false);

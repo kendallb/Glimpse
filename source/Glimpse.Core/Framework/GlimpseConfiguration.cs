@@ -688,13 +688,19 @@ namespace Glimpse.Core.Framework
             }
         }
 
-        // [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
+        /// <summary>
+        /// Get the current logger to support TraceListener with TraceSource via web.config
+        /// </summary>
+        /// <returns>Current logger</returns>
         public static ILogger GetLogger()
         {
             return logger;
         }
 
-        // [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
+        /// <summary>
+        /// Returns the current configured timer strategy to support TraceListener with TraceSource via web.config
+        /// </summary>
+        /// <returns>Current timer strategy</returns>
         public static Func<IExecutionTimer> GetConfiguredTimerStrategy()
         {
             return () =>
@@ -711,22 +717,20 @@ namespace Glimpse.Core.Framework
             };
         }
 
-        // [Obsolete("HACK: To support TraceListener with TraceSource via web.config")]
+        /// <summary>
+        /// Returns the currently configured message broker to support TraceListener with TraceSource via web.config
+        /// </summary>
+        /// <returns>Current message broker</returns>
         public static IMessageBroker GetConfiguredMessageBroker()
         {
             return messageBroker;
         }
 
-        // [Obsolete("HACK: To prevent unnecessary wrapping of SQL connections, commands etc")]
-        public static RuntimePolicy GetDefaultRuntimePolicy()
-        {
-            return defaultRuntimePolicy;
-        }
-
-        // [Obsolete("HACK: To prevent unnecessary wrapping of SQL connections, commands etc")]
-        public static Func<RuntimePolicy> GetRuntimePolicyStategy()
-        {
-            return runtimePolicyStrategy;
-        }
+        /// <summary>
+        /// Returns true if Glimpse is currently enabled for this request
+        /// </summary>
+        public static bool IsGlimpseEnabled => messageBroker != null &&
+                                               defaultRuntimePolicy != RuntimePolicy.Off &&
+                                               runtimePolicyStrategy() != RuntimePolicy.Off;
     }
 }
